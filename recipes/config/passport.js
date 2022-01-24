@@ -7,23 +7,21 @@ passport.use(
     callbackURL: process.env.GOOGLE_CALLBACK        },
   function (accessToken, refreshToken, profile, cb) {
    } )
-);
-function(accessToken, refreshToken, profile, cb) {
-User.findOne({ googleId: profile.id }).then(async function(user) {
-  if (user) return cb(null, user);
-  try {
-    user = await User.create({
-      name: profile.displayName,
+
+  function(accessToken, refreshToken, profile, cb)    {
+  User.findOne({ googleId: profile.id }).then(async function(user) {
+  if (err) return cb(null, err);
+  if (userDoc) {
+    return cb(null, userDoc);
+  } else {
+    const newUser = new User({
+      name: profile.displayName, 
+      email: profile.emails[0].value, 
       googleId: profile.id,
-      email: profile.emails[0].value,
-      avatar: profile.photos[0].value
     });
-    return cb(null, user);
-  } catch (err) {
-    return cb(err);
-  }
-});
-}
+
+  
+  
 
 passport.serializeUser(function(user, cb) {
     cb(null, user._id);
@@ -32,4 +30,4 @@ passport.serializeUser(function(user, cb) {
     User.findById(userId).then(function(user) {
       cb(null, user);
     });
-  });
+  

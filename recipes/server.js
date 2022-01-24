@@ -34,6 +34,7 @@ app.use(session({
   saveUninitialized: true
 }));
 app.use(passport.initialize());
+app.use('/recipes', recipesRouter);
 app.use(passport.session());
 app.use(function (req, res, next) {
   res.locals.user = req.user;
